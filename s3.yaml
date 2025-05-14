@@ -1,0 +1,55 @@
+---
+AWSTemplateFormatVersion: 2010-09-09
+Description: This is my s3 cloud formation template create and Ec2Instance using parameter
+Metadata: 
+  AWS::CloudFormation::Interface: 
+    ParameterGroups: 
+      - 
+        Label: 
+          default: "Compute Configuration"
+        Parameters: 
+          - MyInstanceTypes
+
+      - 
+        Label: 
+          default: "Storage Configuration"
+        Parameters: 
+          - AdegokeBucket
+         
+         
+         
+
+Parameters:
+  EC2AMID:
+    Type: String
+    Default: ami-085386e29e44dacd7
+    AllowedValues:
+      - ami-085386e29e44dacd7
+      - ami-084568db4383264d4
+      - ami-09cb80360d5069de4
+    Description: Here are the avialable ami
+
+  MyInstanceTypes: 
+    Type: String
+    Default: t2.micro
+    AllowedValues:
+      - t2.micro
+      - m1.small
+      - m1.large
+    Description: Enter t2.micro, m1.small, or m1.large. Default is t2.micro.
+
+  MyBucketName: 
+    Type: String
+Resources: 
+  AdegokeBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref MyBucketName
+  AdegokeEc2:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref EC2AMID
+      InstanceType: !Ref MyInstanceTypes
+      
+
+    

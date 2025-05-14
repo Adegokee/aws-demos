@@ -1,0 +1,220 @@
+---
+# AWSTemplateFormatVersion: 2010-09-09
+
+# Description:
+#   Create ec2, s3bucket, vpc, subnet along side with a metadata, parametre, Reaourses
+
+# Metadata: 
+#   AWS::CloudFormation::Interface: 
+#     ParameterGroups: 
+#       - 
+#         Label: 
+#           default: "Network Configuration"
+#         Parameters: 
+#           - MYVPC
+#           - SubnetParameter
+       
+#       - 
+#         Label: 
+#           default: "Compute Configuration"
+#         Parameters: 
+#           - InstanceTypeParameter
+#           - ImageParameter
+#       -
+#         Label: 
+#           default: "Storage Configuration"
+#         Parameters: 
+#           - S3bucketParameter
+         
+    
+
+# Parameters:
+#   InstanceTypeParameter:
+#     Type: String
+#     Default: t2.micro
+#     AllowedValues:
+#       - t2.micro
+#       - m1.small
+#       - m1.large
+#     Description: Enter t2.micro, m1.small, or m1.large. Default is t2.micro.
+
+
+#   ImageParameter:
+#     Description: Enter t2.micro, m1.small, or m1.large. Default is t2.micro.
+#     Type: String
+#     Default: ami-085386e29e44dacd7
+#     AllowedValues:
+#       - ami-085386e29e44dacd7
+#       - ami-084568db4383264d4
+#       - ami-09cb80360d5069de4
+
+
+
+#   VPCParameter:
+#     Description: Enter t2.micro, m1.small, or m1.large. Default is t2.micro.
+#     Type: String
+#     Default: 10.0.0.0/16
+#     AllowedValues:
+#       - 10.0.0.0/20
+#       - 10.0.0.0/24
+#       - 10.0.0.0/32
+
+      
+#   SubnetParameter:
+#     Description: Enter t2.micro, m1.small, or m1.large. Default is t2.micro.
+#     Type: String
+#     Default: 10.0.0.0/20
+#     AllowedValues:
+#       - 10.0.0.0/20
+#       - 10.0.0.0/25
+#       - 10.0.0.0/37
+
+
+#   S3bucketParameter:
+#     Description: Enter t2.micro, m1.small, or m1.large. Default is t2.micro.
+#     Type: String
+#     Default: MYDEMOBUCKET
+   
+# Resources:
+#   MYVPC:
+#     Type: AWS::EC2::VPC
+#     Properties:
+#       CidrBlock: 10.0.0.0/16
+#       EnableDnsHostnames: True
+#       EnableDnsSupport: True
+#     Tags: 
+#       - Key: Project
+#         Value: Banking
+#   MySubnets:
+#     Type: AWS::EC2::Subnet
+#     Properties:
+#       CidrBlock: 10.0.0.0/20
+#       Tags: 
+#         - Key: Project
+#           Value: Banking
+#       VpcId: !Ref MYVPC
+
+#   MYS3Bucket:
+#     Type: AWS::S3::Bucket
+#     Properties:
+#       BucketName: !Ref S3bucketParameter
+#     Tags: 
+#       - Key: Project
+#         Value: Banking
+   
+#   MyEc2Instance:
+#     Type: AWS::EC2::Instance
+#     Properties:
+#       ImageId: !Ref ImageParameter
+#       InstanceType: !Ref InstanceTypeParameter
+#     Tags: 
+#       - Key: Project
+#         Value: Banking
+
+
+
+
+
+
+
+AWSTemplateFormatVersion: 2010-09-09
+
+Description: >
+  CloudFormation template to create an EC2 instance, S3 bucket, VPC, and subnet,
+  with metadata, parameters, and resources grouped appropriately.
+
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: "Network Configuration"
+        Parameters:
+          - VPCParameter
+          - SubnetParameter
+      - Label:
+          default: "Compute Configuration"
+        Parameters:
+          - InstanceTypeParameter
+          - ImageParameter
+      - Label:
+          default: "Storage Configuration"
+        Parameters:
+          - S3bucketParameter
+
+Parameters:
+  InstanceTypeParameter:
+    Type: String
+    Default: t2.micro
+    AllowedValues:
+      - t2.micro
+      - m1.small
+      - m1.large
+    Description: EC2 instance type. Default is t2.micro.
+
+  ImageParameter:
+    Type: String
+    Default: ami-085386e29e44dacd7
+    AllowedValues:
+      - ami-085386e29e44dacd7
+      - ami-084568db4383264d4
+      - ami-09cb80360d5069de4
+    Description: AMI ID for the EC2 instance.
+
+  VPCParameter:
+    Type: String
+    Default: 10.0.0.0/16
+    AllowedValues:
+      - 10.0.0.0/20
+      - 10.0.0.0/24
+      - 10.0.0.0/32
+    Description: CIDR block for the VPC.
+
+  SubnetParameter:
+    Type: String
+    Default: 10.0.0.0/20
+    AllowedValues:
+      - 10.0.0.0/20
+      - 10.0.0.0/25
+    Description: CIDR block for the subnet.
+
+  S3bucketParameter:
+    Type: String
+    Default: MYDEMOBUCKET
+    Description: Name of the S3 bucket to be created.
+
+Resources:
+  MYVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !Ref VPCParameter
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+      Tags:
+        - Key: Project
+          Value: Banking
+
+  MySubnets:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: !Ref SubnetParameter
+      VpcId: !Ref MYVPC
+      Tags:
+        - Key: Project
+          Value: Banking
+
+  MYS3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref S3bucketParameter
+      Tags:
+        - Key: Project
+          Value: Banking
+
+  MyEc2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref ImageParameter
+      InstanceType: !Ref InstanceTypeParameter
+      Tags:
+        - Key: Project
+          Value: Banking

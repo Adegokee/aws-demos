@@ -1,0 +1,12 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: CloudFormation template to create an S3 bucket and an EC2 instance
+Resources:
+  AdegokeEc2:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-0f88e80871fd81e91
+      InstanceType: t2.micro
+      KeyName: devops     # Replace with your actual EC2 KeyPair name
+      SecurityGroups:
+        - default                     # Replace with your security group name if needed

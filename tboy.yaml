@@ -1,0 +1,16 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: CloudFormation Template for WebServer with EC2 Instance
+Resources:
+  # TundeEc2Instance:
+  #   Type: AWS::EC2::Instance
+  #   Properties:
+  #     ImageId: ami-0f88e80871fd81e91
+  #     InstanceType: t2.micro
+
+
+
+  TundeS3bucketLaunch:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: olusolaadegoke.com
+      
